@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Snake
 {
     public partial class SnakeWindow : Window
     {
+        private MySnake _snake;
+        private DispatcherTimer _timer;
         public SnakeWindow()
         {
             InitializeComponent();
             InitBoard();
+            InitSnake();
+            InitTimer();
         }
         void InitBoard()
         { //INICJALIZACJA PLANSZY
@@ -48,7 +46,7 @@ namespace Snake
         void InitTimer()
         { //INICJALIZACJA I DEFINICJA USTAWIEN TIMERA (RUCH WEZA)
             _timer = new DispatcherTimer();
-            _timer.Tick += new EventHandler(_timer_Tick);
+           // _timer.Tick += new EventHandler(_timer_Tick);
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
         }
     }
