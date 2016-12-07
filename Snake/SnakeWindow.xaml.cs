@@ -43,16 +43,15 @@ namespace Snake
         void InitSnake()
         { //INICJALIZACJA WEZA
             grid.Children.Add(_snake.Head.Rectang);
-            foreach (SnakePart snakePart in _snake.Parts)
-                grid.Children.Add(snakePart.Rectang);
+            foreach (SnakePart snakePart in _snake.Parts) grid.Children.Add(snakePart.Rectang);
             _snake.RedrawSnake();
-
         }
         void InitTimer()
         { //INICJALIZACJA I DEFINICJA USTAWIEN TIMERA (RUCH WEZA)
             _timer = new DispatcherTimer();
             _timer.Tick += new EventHandler(_timer_Tick);
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            _timer.Start();
         }
         void _timer_Tick(object sender, EventArgs e)
         {//PORUSZANIE SIE WEZA ZALEZNE OD ODLICZEN TIMERA
@@ -96,34 +95,28 @@ namespace Snake
             { //STEROWANIE WEZEM, SWITCH I WYBOR SRZALKAMI KIERUNKU
                 case Key.Left:
                     {
-                        if (_directionX != 1)
-                            _directionX = -1;
+                        if (_directionX != 1) _directionX = -1;
                         _directionY = 0;
                     }
                     break;
 
                 case Key.Right:
                     {
-                        if (_directionX != -1)
-                            _directionX = 1;
+                        if (_directionX != -1) _directionX = 1;
                         _directionY = 0;
                     }
                     break;
                 case Key.Up:
                     {
-                        if (_directionY != 1)
-                            _directionY = -1;
+                        if (_directionY != 1) _directionY = -1;
                         _directionX = 0;
-
                     }
                     break;
 
                 case Key.Down:
                     {
-                        if (_directionY != -1)
-                            _directionY = 1;
+                        if (_directionY != -1) _directionY = 1;
                         _directionX = 0;
-
                     }
                     break;
             }
