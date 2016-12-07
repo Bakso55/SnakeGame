@@ -126,5 +126,16 @@ namespace Snake
             Grid.SetColumn(_food.Rectang, _food.X);
             Grid.SetRow(_food.Rectang, _food.Y);
         }
+        private bool IsFieldFree(int x, int y)
+        {//SPRAWDZENIE CZY POLE O DANYCH WSPOLZEDNYCH JEST PUSTE
+            if (_snake.Head.X == x && _snake.Head.Y == y)
+                return false;
+            foreach (SnakePart snakePart in _snake.Parts)
+            {
+                if (snakePart.X == x && snakePart.Y == y)
+                    return false;
+            }
+            return true;
+        }
     }
 }
