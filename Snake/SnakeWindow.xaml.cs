@@ -121,5 +121,10 @@ namespace Snake
                     break;
             }
         }
+        private void RedrawFood()
+        {//RYSOWANIE JEDZENIA NA DANYCH WSPOLRZEDNYCH
+            Grid.SetColumn(_food.Rectang, _food.X);
+            Grid.SetRow(_food.Rectang, _food.Y);
+        }
     }
 }
