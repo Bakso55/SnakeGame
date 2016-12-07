@@ -88,7 +88,45 @@ namespace Snake
             _snake.Parts[0].Y = _snake.Head.Y;
             _snake.Head.X += _directionX;
             _snake.Head.Y += _directionY;
-           
+            _snake.RedrawSnake();
+        }
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            { //STEROWANIE WEZEM, SWITCH I WYBOR SRZALKAMI KIERUNKU
+                case Key.Left:
+                    {
+                        if (_directionX != 1)
+                            _directionX = -1;
+                        _directionY = 0;
+                    }
+                    break;
+
+                case Key.Right:
+                    {
+                        if (_directionX != -1)
+                            _directionX = 1;
+                        _directionY = 0;
+                    }
+                    break;
+                case Key.Up:
+                    {
+                        if (_directionY != 1)
+                            _directionY = -1;
+                        _directionX = 0;
+
+                    }
+                    break;
+
+                case Key.Down:
+                    {
+                        if (_directionY != -1)
+                            _directionY = 1;
+                        _directionX = 0;
+
+                    }
+                    break;
+            }
         }
     }
 }
