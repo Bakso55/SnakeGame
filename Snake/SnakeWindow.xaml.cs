@@ -45,5 +45,11 @@ namespace Snake
             _snake.RedrawSnake();
 
         }
+        void InitTimer()
+        { //INICJALIZACJA I DEFINICJA USTAWIEN TIMERA (RUCH WEZA)
+            _timer = new DispatcherTimer();
+            _timer.Tick += new EventHandler(_timer_Tick);
+            _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+        }
     }
 }
