@@ -12,12 +12,14 @@ namespace Snake
     {
         private MySnake _snake;
         private DispatcherTimer _timer;
+        private SnakePart _food;
         public SnakeWindow()
         {
             InitializeComponent();
             InitBoard();
             InitSnake();
             InitTimer();
+            InitFood();
         }
         void InitBoard()
         { //INICJALIZACJA PLANSZY
@@ -48,6 +50,15 @@ namespace Snake
             _timer = new DispatcherTimer();
            // _timer.Tick += new EventHandler(_timer_Tick);
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+        }
+        void InitFood()
+        { //DEFINICJA 'JEDZENIA'
+            _food = new SnakePart(10, 10);
+            _food.Rectang.Width = _food.Rectang.Height = 50;
+            _food.Rectang.Fill = Brushes.Blue;
+            grid.Children.Add(_food.Rectang);
+            Grid.SetColumn(_food.Rectang, _food.X);
+            Grid.SetRow(_food.Rectang, _food.Y);
         }
     }
 }
