@@ -89,8 +89,12 @@ namespace Snake
             _snake.Parts[0].Y = _snake.Head.Y;
             _snake.Head.X += _directionX;
             _snake.Head.Y += _directionY;
-            if (CheckFood()) RedrawFood();
-            _snake.RedrawSnake();
+            if (CheckCollision()) EndGame();
+            else
+            {
+                if (CheckFood()) RedrawFood();
+                _snake.RedrawSnake();
+            }
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -136,6 +140,12 @@ namespace Snake
             foreach (SnakePart snakePart in _snake.Parts)
             {
                 if (snakePart.X == x && snakePart.Y == y)
+                    return false;
+            }
+            foreach (Obstacles wall in _walls)
+            {
+                if (x >= wall.X && x < wall.X + wall.Width &&
+                    y >= wall.Y && y < wall.Y + wall.Height)
                     return false;
             }
             return true;
@@ -230,6 +240,25 @@ namespace Snake
             Grid.SetRowSpan(wall6.Rectang, wall6.Height);
             _walls.Add(wall6);
 
+        }
+        bool CheckCollision()
+        {
+            if (_snake.Head.X < 0 || _snake.Head.X > grid.Width / 10)
+                return true; //SPRAWDZENIE KOLIZYJNOSCI Z GRANICAMI PLANSZY
+            if (_snake.Head.Y < 0 || _snake.Head.Y > grid.Height / 10)
+                return true;
+            foreach (SnakePart snakePart in _snake.Parts)
+            {
+                if (_snake.Head.X == snakePart.X && _snake.Head.Y == snakePart.Y)
+                    return true; //SPRAWDZENIE KOLIZYJNOSCI WEZA SAMEGO Z SOBA
+            }
+            foreach (Obstacles wall in _walls)
+            {
+                if (_snake.Head.X >= wall.X && _snake.Head.X < wall.X + wall.Width &&
+                    _snake.Head.Y >= wall.Y && _snake.Head.Y < wall.Y + wall.Height)
+                    return true; //SPRAWDZENIE KOLIZYJNOSCI Z PRZESZKODAMI
+            }
+            return false;
         }
         void EndGame()
         {
