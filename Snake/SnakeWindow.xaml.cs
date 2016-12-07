@@ -87,6 +87,7 @@ namespace Snake
             _snake.Parts[0].Y = _snake.Head.Y;
             _snake.Head.X += _directionX;
             _snake.Head.Y += _directionY;
+            if (CheckFood()) RedrawFood();
             _snake.RedrawSnake();
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -136,6 +137,53 @@ namespace Snake
                     return false;
             }
             return true;
+        }
+        private bool CheckFood()
+        {
+
+            Random rand = new Random();
+
+            if (_snake.Head.X == _food.X && _snake.Head.Y == _food.Y)
+            {
+                _partsToAdd += 5;
+                
+
+
+                //DODANIE 5 BLOKOW PO INTERAKCJI WEZA Z JEDZENIEM
+                for (int i = 0; i < 1; i++)
+                {
+                    int x = rand.Next(0, (int)(grid.Width / 10));
+                    int y = rand.Next(0, (int)(grid.Height / 10));
+                    if (IsFieldFree(x, y))
+                    {
+                        _food.X = x;
+                        _food.Y = y;
+                        return true;
+                    }
+
+                }
+
+                for (int i = 0; i < grid.Width / 10; i++)
+                    for (int j = 0; j < grid.Height / 10; j++)
+                    {
+                        if (IsFieldFree(i, j))
+                        {
+                            _food.X = i;
+                            _food.Y = j;
+                            return true;
+                        }
+                    }
+                EndGame();
+            }
+            return false;
+        }
+        void EndGame()
+        {
+            _timer.Stop();
+            
+
+
+
         }
     }
 }
