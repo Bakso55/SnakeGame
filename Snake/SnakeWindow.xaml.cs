@@ -16,6 +16,7 @@ namespace Snake
         private int _partsToAdd;
         private int _directionX = 1;
         private int _directionY = 0;
+        private List<Obstacles> _walls;
         public SnakeWindow()
         {
             InitializeComponent();
@@ -23,6 +24,7 @@ namespace Snake
             InitSnake();
             InitTimer();
             InitFood();
+            InitWall();
         }
         void InitBoard()
         { //INICJALIZACJA PLANSZY
@@ -176,6 +178,58 @@ namespace Snake
                 EndGame();
             }
             return false;
+        }
+        void InitWall()
+        { //PRZESZKODY
+            _walls = new List<Obstacles>();
+            Obstacles wall1 = new Obstacles(5, 12, 5, 40);
+            grid.Children.Add(wall1.Rectang);
+            Grid.SetColumn(wall1.Rectang, wall1.X);
+            Grid.SetRow(wall1.Rectang, wall1.Y);
+            Grid.SetColumnSpan(wall1.Rectang, wall1.Width);
+            Grid.SetRowSpan(wall1.Rectang, wall1.Height);
+            _walls.Add(wall1);
+
+            Obstacles wall2 = new Obstacles(70, 12, 5, 40);
+            grid.Children.Add(wall2.Rectang);
+            Grid.SetColumn(wall2.Rectang, wall2.X);
+            Grid.SetRow(wall2.Rectang, wall2.Y);
+            Grid.SetColumnSpan(wall2.Rectang, wall2.Width);
+            Grid.SetRowSpan(wall2.Rectang, wall2.Height);
+            _walls.Add(wall2);
+
+            Obstacles wall3 = new Obstacles(28, 20, 25, 5);
+            grid.Children.Add(wall3.Rectang);
+            Grid.SetColumn(wall3.Rectang, wall3.X);
+            Grid.SetRow(wall3.Rectang, wall3.Y);
+            Grid.SetColumnSpan(wall3.Rectang, wall3.Width);
+            Grid.SetRowSpan(wall3.Rectang, wall3.Height);
+            _walls.Add(wall3);
+
+            Obstacles wall4 = new Obstacles(28, 35, 25, 5);
+            grid.Children.Add(wall4.Rectang);
+            Grid.SetColumn(wall4.Rectang, wall4.X);
+            Grid.SetRow(wall4.Rectang, wall4.Y);
+            Grid.SetColumnSpan(wall4.Rectang, wall4.Width);
+            Grid.SetRowSpan(wall4.Rectang, wall4.Height);
+            _walls.Add(wall4);
+
+            Obstacles wall5 = new Obstacles(20, 27, 5, 5);
+            grid.Children.Add(wall5.Rectang);
+            Grid.SetColumn(wall5.Rectang, wall5.X);
+            Grid.SetRow(wall5.Rectang, wall5.Y);
+            Grid.SetColumnSpan(wall5.Rectang, wall5.Width);
+            Grid.SetRowSpan(wall5.Rectang, wall5.Height);
+            _walls.Add(wall5);
+
+            Obstacles wall6 = new Obstacles(56, 27, 5, 5);
+            grid.Children.Add(wall6.Rectang);
+            Grid.SetColumn(wall6.Rectang, wall6.X);
+            Grid.SetRow(wall6.Rectang, wall6.Y);
+            Grid.SetColumnSpan(wall6.Rectang, wall6.Width);
+            Grid.SetRowSpan(wall6.Rectang, wall6.Height);
+            _walls.Add(wall6);
+
         }
         void EndGame()
         {
