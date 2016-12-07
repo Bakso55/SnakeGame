@@ -37,4 +37,13 @@ namespace Snake
             }
             _snake = new MySnake();
         }
+        void InitSnake()
+        { //INICJALIZACJA WEZA
+            grid.Children.Add(_snake.Head.Rectang);
+            foreach (SnakePart snakePart in _snake.Parts)
+                grid.Children.Add(snakePart.Rectang);
+            _snake.RedrawSnake();
+
+        }
+    }
 }
