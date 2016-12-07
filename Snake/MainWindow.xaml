@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Snake"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" 
+        WindowState="Maximized"
+        WindowStyle="None">
     <Grid>
-        
+        <Rectangle Fill="Black"  Stroke="Black" />
+        <Label x:Name="label" Content="99999999 in 1" HorizontalAlignment="Center" Height="124" Margin="144,63,117,0" VerticalAlignment="Top" Width="499" Foreground="White" FontFamily="Showcard Gothic" FontSize="72" Cursor="None"/>
+        <Button x:Name="button1" Content="000001 Snake" HorizontalAlignment="Center" Height="74" Margin="293,256,283,0" VerticalAlignment="Top" Width="184" FontFamily="Showcard Gothic" FontSize="24" Click="button1_Click" Cursor="Hand" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White"/>
+        <Button x:Name="button2" Content="X" HorizontalAlignment="Right" Margin="663,10,0,0" VerticalAlignment="Top" Width="87" Height="64" FontFamily="Showcard Gothic" FontSize="48" Background="Black" Click="button2_Click" Foreground="Red" BorderBrush="{x:Null}" Cursor="Hand"/>
     </Grid>
 </Window>
