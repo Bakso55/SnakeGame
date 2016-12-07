@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Snake"
         mc:Ignorable="d"
-        Title="SnakeWindow" Height="300" Width="300">
+        Title="Snake" 
+        WindowState="Maximized"
+        WindowStyle="None">
     <Grid>
-        
+        <Rectangle Fill="Black"  Stroke="Black" />
+        <Rectangle Height="600" Width="800" Stroke="Black" Fill="White"/>
+        <Grid Name="grid" Height="600" Width="800"/>
     </Grid>
 </Window>
