@@ -13,6 +13,9 @@ namespace Snake
         private MySnake _snake;
         private DispatcherTimer _timer;
         private SnakePart _food;
+        private int _partsToAdd;
+        private int _directionX = 1;
+        private int _directionY = 0;
         public SnakeWindow()
         {
             InitializeComponent();
@@ -48,8 +51,12 @@ namespace Snake
         void InitTimer()
         { //INICJALIZACJA I DEFINICJA USTAWIEN TIMERA (RUCH WEZA)
             _timer = new DispatcherTimer();
-           // _timer.Tick += new EventHandler(_timer_Tick);
+            _timer.Tick += new EventHandler(_timer_Tick);
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+        }
+        void _timer_Tick(object sender, EventArgs e)
+        {//PORUSZANIE SIE WEZA ZALEZNE OD ODLICZEN TIMERA
+            MoveSnake();
         }
         void InitFood()
         { //DEFINICJA 'JEDZENIA'
@@ -59,6 +66,29 @@ namespace Snake
             grid.Children.Add(_food.Rectang);
             Grid.SetColumn(_food.Rectang, _food.X);
             Grid.SetRow(_food.Rectang, _food.Y);
+        }
+        private void MoveSnake()
+        { //RUCH WEZA
+            int snakePartCount = _snake.Parts.Count;
+            if (_partsToAdd > 0)
+            {
+                SnakePart newPart = new SnakePart(_snake.Parts[_snake.Parts.Count - 1].X,
+                _snake.Parts[_snake.Parts.Count - 1].Y);
+                grid.Children.Add(newPart.Rectang);
+                _snake.Parts.Add(newPart);
+                _partsToAdd--;
+            }
+
+            for (int i = snakePartCount - 1; i >= 1; i--)
+            {
+                _snake.Parts[i].X = _snake.Parts[i - 1].X;
+                _snake.Parts[i].Y = _snake.Parts[i - 1].Y;
+            }
+            _snake.Parts[0].X = _snake.Head.X;
+            _snake.Parts[0].Y = _snake.Head.Y;
+            _snake.Head.X += _directionX;
+            _snake.Head.Y += _directionY;
+           
         }
     }
 }
