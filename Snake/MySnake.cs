@@ -43,4 +43,15 @@ namespace Snake
             Parts = new List<SnakePart>();
             Parts.Add(new SnakePart(29, 0));
         }
+        public void RedrawSnake()
+        { //RYSOWANIE WEZA
+            Grid.SetColumn(Head.Rectang, Head.X);
+            Grid.SetRow(Head.Rectang, Head.Y);
+            foreach (SnakePart snakePart in Parts)
+            {
+                Grid.SetColumn(snakePart.Rectang, snakePart.X);
+                Grid.SetRow(snakePart.Rectang, snakePart.Y);
+            }
+        }
     }
+}
