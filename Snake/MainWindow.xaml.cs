@@ -22,7 +22,7 @@ namespace Snake
     {
         public MainWindow()
         {
-            
+            InitializeComponent();
         }
     }
 }
