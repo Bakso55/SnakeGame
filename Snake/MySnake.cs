@@ -32,6 +32,15 @@ namespace Snake
         }
     }
     class MySnake
-    {
+    { //KLASA 'WAZ'
+        public SnakePart Head { get; private set; }
+        public List<SnakePart> Parts { get; private set; }
+        public MySnake()
+        { //DEFINICJA BLOKU WEZA
+            Head = new SnakePart(30, 0);
+            Head.Rectang.Width = Head.Rectang.Height = 50;
+            Head.Rectang.Fill = System.Windows.Media.Brushes.Black;
+            Parts = new List<SnakePart>();
+            Parts.Add(new SnakePart(29, 0));
+        }
     }
-}
