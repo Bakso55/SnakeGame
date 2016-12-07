@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Media;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -17,6 +18,7 @@ namespace Snake
         private int _directionX = 1;
         private int _directionY = 0;
         private List<Obstacles> _walls;
+        private int wynik = 0;
         public SnakeWindow()
         {
             InitializeComponent();
@@ -53,11 +55,11 @@ namespace Snake
             _timer = new DispatcherTimer();
             _timer.Tick += new EventHandler(_timer_Tick);
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
-            _timer.Start();
         }
         void _timer_Tick(object sender, EventArgs e)
         {//PORUSZANIE SIE WEZA ZALEZNE OD ODLICZEN TIMERA
             MoveSnake();
+            ScoreDisplay.Text = Convert.ToString(wynik);
         }
         void InitFood()
         { //DEFINICJA 'JEDZENIA'
@@ -156,12 +158,10 @@ namespace Snake
             Random rand = new Random();
 
             if (_snake.Head.X == _food.X && _snake.Head.Y == _food.Y)
-            {
+            {//DODANIE 5 BLOKOW PO INTERAKCJI WEZA Z JEDZENIEM
                 _partsToAdd += 5;
-                
-
-
-                //DODANIE 5 BLOKOW PO INTERAKCJI WEZA Z JEDZENIEM
+                wynik++;
+                SystemSounds.Beep.Play();
                 for (int i = 0; i < 1; i++)
                 {
                     int x = rand.Next(0, (int)(grid.Width / 10));
@@ -260,13 +260,21 @@ namespace Snake
             }
             return false;
         }
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            _timer.Start();
+            button1.Visibility = Visibility.Hidden;
+
+        }
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+
+        }
         void EndGame()
         {
             _timer.Stop();
-            
-
-
-
+            button1_Copy.Visibility = Visibility.Visible;
         }
     }
 }
