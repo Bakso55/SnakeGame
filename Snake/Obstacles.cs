@@ -1,11 +1,9 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Shapes;
-using System.Windows.Media;
+﻿using System.Windows.Shapes;
+
 
 namespace Snake
 {
-    class Obstacles
+    class Obstacles : IRandomColor
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -23,19 +21,6 @@ namespace Snake
             Rectang.Height = 10 * height;
             Rectang.Fill = PickBrush();
         }
-        internal Brush PickBrush()
-        { //LOSOWANIE KOLORU
-
-            Brush result = Brushes.Transparent;
-            Random rnd = new Random();
-            Type brushesType = typeof(Brushes);
-            PropertyInfo[] properties = brushesType.GetProperties();
-            int random = rnd.Next(properties.Length);
-            result = (Brush)properties[random].GetValue(null, null);
-
-            if (result == Brushes.White)
-                return PickBrush();
-            return result;
-        }
+       
     }
 }

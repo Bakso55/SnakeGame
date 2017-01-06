@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.IO;
 
 namespace Snake
 {
@@ -13,12 +14,13 @@ namespace Snake
     {
         private MySnake _snake;
         private DispatcherTimer _timer;
-        private SnakePart _food;
+        private SnakePart _food, _food2, _food3;
         private int _partsToAdd;
         private int _directionX = 1;
         private int _directionY = 0;
         private List<Obstacles> _walls;
-        private int wynik = 0;
+        private int score = 0;
+
         public SnakeWindow()
         {
             InitializeComponent();
@@ -27,7 +29,23 @@ namespace Snake
             InitTimer();
             InitFood();
             InitWall();
+            SoundPlayer();
         }
+
+        void RankSaver()
+        {//ZAPIS DO PLIKU WYNIKU (PLIK GENEROWANY W KATALOGU W KTORYM URUCHOMIONO PROGRAM)
+            StreamWriter SW;
+            SW = File.AppendText("rank.txt");
+            SW.WriteLine("I: {0}  W: {1}pkt ",textBox.Text, score);
+            SW.Close();
+        }
+
+        void SoundPlayer()
+        {//MUZYKA W TLE
+            SoundPlayer player = new SoundPlayer("sound.wav");
+            player.Play();
+        }
+
         void InitBoard()
         { //INICJALIZACJA PLANSZY
             for (int i = 0; i < grid.Width / 10; i++)
@@ -44,23 +62,32 @@ namespace Snake
             }
             _snake = new MySnake();
         }
+
         void InitSnake()
         { //INICJALIZACJA WEZA
             grid.Children.Add(_snake.Head.Rectang);
             foreach (SnakePart snakePart in _snake.Parts) grid.Children.Add(snakePart.Rectang);
             _snake.RedrawSnake();
         }
+
         void InitTimer()
         { //INICJALIZACJA I DEFINICJA USTAWIEN TIMERA (RUCH WEZA)
             _timer = new DispatcherTimer();
             _timer.Tick += new EventHandler(_timer_Tick);
-            _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            //PREDKOSC WEZA ZALEZNA OD ZDOBYTYCH PUNKTOW
+            if (score==0) _timer.Interval = new TimeSpan(0, 0, 0, 0, 70);
+            if (score==7) _timer.Interval = new TimeSpan(0, 0, 0, 0, 60);
+            if (score==14) _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            if (score==20) _timer.Interval = new TimeSpan(0, 0, 0, 0, 40);
+            if (score==26) _timer.Interval = new TimeSpan(0, 0, 0, 0, 35);
         }
+
         void _timer_Tick(object sender, EventArgs e)
         {//PORUSZANIE SIE WEZA ZALEZNE OD ODLICZEN TIMERA
             MoveSnake();
-            ScoreDisplay.Text = Convert.ToString(wynik);
+            ScoreDisplay.Text = Convert.ToString(score);
         }
+
         void InitFood()
         { //DEFINICJA 'JEDZENIA'
             _food = new SnakePart(10, 10);
@@ -69,7 +96,22 @@ namespace Snake
             grid.Children.Add(_food.Rectang);
             Grid.SetColumn(_food.Rectang, _food.X);
             Grid.SetRow(_food.Rectang, _food.Y);
+
+            _food2 = new SnakePart(30, 30);
+            _food2.Rectang.Width = _food2.Rectang.Height = 50;
+            _food2.Rectang.Fill = Brushes.Blue;
+            grid.Children.Add(_food2.Rectang);
+            Grid.SetColumn(_food2.Rectang, _food2.X);
+            Grid.SetRow(_food2.Rectang, _food2.Y);
+
+            _food3 = new SnakePart(75, 30);
+            _food3.Rectang.Width = _food3.Rectang.Height = 50;
+            _food3.Rectang.Fill = Brushes.Blue;
+            grid.Children.Add(_food3.Rectang);
+            Grid.SetColumn(_food3.Rectang, _food3.X);
+            Grid.SetRow(_food3.Rectang, _food3.Y);
         }
+
         private void MoveSnake()
         { //RUCH WEZA
             int snakePartCount = _snake.Parts.Count;
@@ -81,7 +123,6 @@ namespace Snake
                 _snake.Parts.Add(newPart);
                 _partsToAdd--;
             }
-
             for (int i = snakePartCount - 1; i >= 1; i--)
             {
                 _snake.Parts[i].X = _snake.Parts[i - 1].X;
@@ -98,6 +139,7 @@ namespace Snake
                 _snake.RedrawSnake();
             }
         }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
@@ -130,11 +172,19 @@ namespace Snake
                     break;
             }
         }
+
         private void RedrawFood()
         {//RYSOWANIE JEDZENIA NA DANYCH WSPOLRZEDNYCH
             Grid.SetColumn(_food.Rectang, _food.X);
             Grid.SetRow(_food.Rectang, _food.Y);
+
+            Grid.SetColumn(_food2.Rectang, _food2.X);
+            Grid.SetRow(_food2.Rectang, _food2.Y);
+
+            Grid.SetColumn(_food3.Rectang, _food3.X);
+            Grid.SetRow(_food3.Rectang, _food3.Y);
         }
+
         private bool IsFieldFree(int x, int y)
         {//SPRAWDZENIE CZY POLE O DANYCH WSPOLZEDNYCH JEST PUSTE
             if (_snake.Head.X == x && _snake.Head.Y == y)
@@ -152,18 +202,22 @@ namespace Snake
             }
             return true;
         }
+
         private bool CheckFood()
         {
-
-            Random rand = new Random();
-
-            if (_snake.Head.X == _food.X && _snake.Head.Y == _food.Y)
-            {//DODANIE 5 BLOKOW PO INTERAKCJI WEZA Z JEDZENIEM
+            if ((_snake.Head.X == _food.X && _snake.Head.Y == _food.Y) 
+                || (_snake.Head.X == _food2.X && _snake.Head.Y == _food2.Y) 
+                || (_snake.Head.X == _food3.X && _snake.Head.Y == _food3.Y))
+            {
                 _partsToAdd += 5;
-                wynik++;
+                score++;
                 SystemSounds.Beep.Play();
+            }
+            if (_snake.Head.X == _food.X && _snake.Head.Y == _food.Y)
+            {
                 for (int i = 0; i < 1; i++)
                 {
+                    Random rand = new Random();
                     int x = rand.Next(0, (int)(grid.Width / 10));
                     int y = rand.Next(0, (int)(grid.Height / 10));
                     if (IsFieldFree(x, y))
@@ -172,9 +226,7 @@ namespace Snake
                         _food.Y = y;
                         return true;
                     }
-
                 }
-
                 for (int i = 0; i < grid.Width / 10; i++)
                     for (int j = 0; j < grid.Height / 10; j++)
                     {
@@ -184,11 +236,64 @@ namespace Snake
                             _food.Y = j;
                             return true;
                         }
+                        EndGame();
                     }
-                EndGame();
             }
-            return false;
+            if (_snake.Head.X == _food2.X && _snake.Head.Y == _food2.Y)
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    Random rand = new Random();
+                    int x2 = rand.Next(0, (int)(grid.Width / 10));
+                    int y2 = rand.Next(0, (int)(grid.Height / 10));
+                    if (IsFieldFree(x2, y2))
+                    {
+                        _food2.X = x2;
+                        _food2.Y = y2;
+                        return true;
+                    }
+                }
+                for (int i = 0; i < grid.Width / 10; i++)
+                    for (int j = 0; j < grid.Height / 10; j++)
+                    {
+                        if (IsFieldFree(i, j))
+                        {
+                            _food2.X = i;
+                            _food2.Y = j;
+                            return true;
+                        }
+                        EndGame();
+                    }
+            }
+            if (_snake.Head.X == _food3.X && _snake.Head.Y == _food3.Y)
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    Random rand = new Random();
+                    int x3 = rand.Next(0, (int)(grid.Width / 10));
+                    int y3 = rand.Next(0, (int)(grid.Height / 10));
+                    if (IsFieldFree(x3, y3))
+                    {
+                        _food3.X = x3;
+                        _food3.Y = y3;
+                        return true;
+                    }
+                }
+                for (int i = 0; i < grid.Width / 10; i++)
+                    for (int j = 0; j < grid.Height / 10; j++)
+                    {
+                        if (IsFieldFree(i, j))
+                        {
+                            _food3.X = i;
+                            _food3.Y = j;
+                            return true;
+                        }
+                        EndGame();
+                    }
+            }
+            return false;   
         }
+
         void InitWall()
         { //PRZESZKODY
             _walls = new List<Obstacles>();
@@ -241,6 +346,7 @@ namespace Snake
             _walls.Add(wall6);
 
         }
+
         bool CheckCollision()
         {
             if (_snake.Head.X < 0 || _snake.Head.X > grid.Width / 10)
@@ -261,20 +367,48 @@ namespace Snake
             return false;
         }
         private void button1_Click(object sender, RoutedEventArgs e)
-        {
+        {//START GRY
             _timer.Start();
             button1.Visibility = Visibility.Hidden;
-
         }
+
         private void button2_Click(object sender, RoutedEventArgs e)
-        {
+        {//PRZYCISK EXIT
             Environment.Exit(0);
-
         }
+
+        private void textBox_KeyDown(object sender, KeyEventArgs e)
+        {//UKRYCIE POLA TEKSTOWEGO PO PODANIU IMIENIA(PUSTE NIE UKRYWA SIE)
+            if (textBox.Text != "") if (Keyboard.IsKeyDown(Key.Enter)) textBox.Visibility = Visibility.Hidden;
+        }
+        
+        private void textBoxFocus(object sender, RoutedEventArgs e)
+        {//CZYSCI POLE TEKSTOWE PO KLIKNIECIU
+            textBox.Text = "";
+        }
+
+        private void rankLoad (object sender, RoutedEventArgs e)
+        {//WCZYTANIE RANKINGU Z PLIKU; CZYSZCZENIE RANKINGU POWYZEJ 10 WPISOW
+            var lineCount = File.ReadAllLines("rank.txt").Length;
+            if (lineCount>10)
+            {
+                StreamWriter SW;
+                SW = File.CreateText("rank.txt");
+                SW.WriteLine("");
+                SW.Close();
+
+            }
+            using (StreamReader reader = new StreamReader("rank.txt"))
+            {
+                textBlock3.Text = reader.ReadToEnd();
+            }
+        }
+
         void EndGame()
         {
             _timer.Stop();
             button1_Copy.Visibility = Visibility.Visible;
+            RankSaver();
         }
     }
 }

@@ -4,7 +4,10 @@
         Title="Snake" 
         WindowState="Maximized"
         WindowStyle="None"
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown"
+        Loaded="rankLoad">
+
+
     <Grid>
         <Rectangle Fill="Black"  Stroke="Black" />
         <Rectangle Height="600" Width="800" Stroke="Black" Fill="White"/>
@@ -18,5 +21,8 @@
         <Button x:Name="button1_Copy" Content="GAME OVER" HorizontalAlignment="Center" Margin="256,192,248,189" VerticalAlignment="Center" Width="500" Click="button1_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Red" FontFamily="Showcard Gothic" FontSize="75" Height="146" Visibility="Hidden"/>
         <Image x:Name="logo_png" Margin="5,5,0,0" Source="logo.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Width="276" Height="160" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <Image x:Name="arrowKeys_png" Margin="62,130,0,307" Source="arrowKeys.png" Stretch="Fill" Width="160" Height="90" HorizontalAlignment="Left"/>
+        <TextBox x:Name="textBox" MaxLength="10" HorizontalAlignment="Center" Height="152" Margin="269,190,257,185" TextWrapping="Wrap" Text="Wpisz swoje imie i nacisnij ENTER" VerticalAlignment="Center" Width="234" GotFocus="textBoxFocus" KeyDown="textBox_KeyDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionBrush="{x:Null}" Foreground="Red" BorderBrush="{x:Null}" FontFamily="Showcard Gothic" FontSize="24"/>
+        <TextBlock x:Name="textBlock3"  HorizontalAlignment="Right" Margin="0,101,-6,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="285" Width="263" Foreground="Red" FontFamily="Showcard Gothic" FontSize="22" Cursor="Arrow"/>
+        <TextBlock x:Name="textBlock4"  HorizontalAlignment="Right" Margin="0,61,-6,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="59" Width="263" Foreground="Red" FontFamily="Showcard Gothic" FontSize="22" Cursor="Arrow" RenderTransformOrigin="0.475,-0.567" Background="{x:Null}"  Text="Wyniki: "/>
     </Grid>
 </Window>

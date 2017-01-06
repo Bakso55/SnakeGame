@@ -55,8 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IRandomColor.cs" />
     <Compile Include="MySnake.cs" />
     <Compile Include="Obstacles.cs" />
+    <Compile Include="SnakePart.cs" />
     <Compile Include="SnakeWindow.xaml.cs">
       <DependentUpon>SnakeWindow.xaml</DependentUpon>
     </Compile>
