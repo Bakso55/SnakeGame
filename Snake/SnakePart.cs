@@ -2,7 +2,7 @@
 
 namespace Snake
 {
-    class SnakePart : IRandomColor
+    class SnakePart : RandomColor
 
     { //KLASA 'ELEMENT WEZA'
         public int X { get; set; }

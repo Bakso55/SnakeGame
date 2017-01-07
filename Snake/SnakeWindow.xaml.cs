@@ -43,7 +43,7 @@ namespace Snake
         void SoundPlayer()
         {//MUZYKA W TLE
             SoundPlayer player = new SoundPlayer("sound.wav");
-            player.Play();
+            player.PlayLooping();
         }
 
         void InitBoard()
@@ -377,6 +377,13 @@ namespace Snake
             Environment.Exit(0);
         }
 
+        private void Restart_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            SnakeWindow s = new SnakeWindow();
+            s.Show();
+        }
+
         private void textBox_KeyDown(object sender, KeyEventArgs e)
         {//UKRYCIE POLA TEKSTOWEGO PO PODANIU IMIENIA(PUSTE NIE UKRYWA SIE)
             if (textBox.Text != "") if (Keyboard.IsKeyDown(Key.Enter)) textBox.Visibility = Visibility.Hidden;
@@ -408,7 +415,8 @@ namespace Snake
         {
             _timer.Stop();
             button1_Copy.Visibility = Visibility.Visible;
-            RankSaver();
+            RankSaver();           
         }
+
     }
 }

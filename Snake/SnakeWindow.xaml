@@ -24,5 +24,6 @@
         <TextBox x:Name="textBox" MaxLength="10" HorizontalAlignment="Center" Height="152" Margin="269,190,257,185" TextWrapping="Wrap" Text="Wpisz swoje imie i nacisnij ENTER" VerticalAlignment="Center" Width="234" GotFocus="textBoxFocus" KeyDown="textBox_KeyDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionBrush="{x:Null}" Foreground="Red" BorderBrush="{x:Null}" FontFamily="Showcard Gothic" FontSize="24"/>
         <TextBlock x:Name="textBlock3"  HorizontalAlignment="Right" Margin="0,101,-6,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="285" Width="263" Foreground="Red" FontFamily="Showcard Gothic" FontSize="22" Cursor="Arrow"/>
         <TextBlock x:Name="textBlock4"  HorizontalAlignment="Right" Margin="0,61,-6,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="59" Width="263" Foreground="Red" FontFamily="Showcard Gothic" FontSize="22" Cursor="Arrow" RenderTransformOrigin="0.475,-0.567" Background="{x:Null}"  Text="Wyniki: "/>
+        <Button x:Name="Restart" Content="Restart" HorizontalAlignment="Left" Height="64" Margin="52,0,0,208" VerticalAlignment="Bottom" Width="111" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Red" FontFamily="Showcard Gothic" FontSize="24" Click="Restart_Click"/>
     </Grid>
 </Window>

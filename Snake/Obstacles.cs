@@ -1,9 +1,8 @@
 ﻿using System.Windows.Shapes;
 
-
 namespace Snake
 {
-    class Obstacles : IRandomColor
+    class Obstacles : RandomColor
     {
         public int X { get; set; }
         public int Y { get; set; }
