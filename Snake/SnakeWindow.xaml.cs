@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Windows;
 using System.Media;
@@ -10,9 +11,10 @@ using System.IO;
 
 namespace Snake
 {
-    public partial class SnakeWindow : Window
+    public partial class SnakeWindow : Window, IRank, IMusic
     {
         private MySnake _snake;
+        
         private DispatcherTimer _timer;
         private SnakePart _food, _food2, _food3;
         private int _partsToAdd;
@@ -32,15 +34,9 @@ namespace Snake
             SoundPlayer();
         }
 
-        void RankSaver()
-        {//ZAPIS DO PLIKU WYNIKU (PLIK GENEROWANY W KATALOGU W KTORYM URUCHOMIONO PROGRAM)
-            StreamWriter SW;
-            SW = File.AppendText("rank.txt");
-            SW.WriteLine("I: {0}  W: {1}pkt ",textBox.Text, score);
-            SW.Close();
-        }
+        
 
-        void SoundPlayer()
+        public void SoundPlayer()
         {//MUZYKA W TLE
             SoundPlayer player = new SoundPlayer("sound.wav");
             player.PlayLooping();
@@ -394,10 +390,10 @@ namespace Snake
             textBox.Text = "";
         }
 
-        private void rankLoad (object sender, RoutedEventArgs e)
+        public void rankLoad(object sender, RoutedEventArgs e)
         {//WCZYTANIE RANKINGU Z PLIKU; CZYSZCZENIE RANKINGU POWYZEJ 10 WPISOW
             var lineCount = File.ReadAllLines("rank.txt").Length;
-            if (lineCount>10)
+            if (lineCount > 10)
             {
                 StreamWriter SW;
                 SW = File.CreateText("rank.txt");
@@ -410,7 +406,24 @@ namespace Snake
                 textBlock3.Text = reader.ReadToEnd();
             }
         }
-
+        public void RankSaver()
+        {//ZAPIS DO PLIKU WYNIKU (PLIK GENEROWANY W KATALOGU W KTORYM URUCHOMIONO PROGRAM)
+            StreamWriter SW;
+            SW = File.AppendText("rank.txt");
+            SW.WriteLine("I: {0}  W: {1}pkt ", textBox.Text, score);
+            SW.Close();
+        }
+        public Brush PickBrush()
+        { //LOSOWANIE KOLORU
+            Brush result = Brushes.Transparent;
+            Random rnd = new Random();
+            Type brushesType = typeof(Brushes);
+            PropertyInfo[] properties = brushesType.GetProperties();
+            int random = rnd.Next(properties.Length);
+            result = (Brush)properties[random].GetValue(null, null);
+            if (result == Brushes.White || result == Brushes.Black) return PickBrush();
+            else return result;
+        }
         void EndGame()
         {
             _timer.Stop();
