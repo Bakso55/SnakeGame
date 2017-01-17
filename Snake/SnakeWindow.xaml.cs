@@ -13,8 +13,7 @@ namespace Snake
 {
     public partial class SnakeWindow : Window, IRank, IMusic, IChecker, IInitializer
     {
-        private MySnake _snake;
-        
+        private MySnake _snake; 
         private DispatcherTimer _timer;
         private SnakePart _food, _food2, _food3;
         private int _partsToAdd;
@@ -33,8 +32,6 @@ namespace Snake
             InitWall();
             SoundPlayer();
         }
-
-        
 
         public void SoundPlayer()
         {//MUZYKA W TLE
