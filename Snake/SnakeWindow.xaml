@@ -5,7 +5,7 @@
         WindowState="Maximized"
         WindowStyle="None"
         KeyDown="Window_KeyDown"
-        Loaded="rankLoad">
+        Loaded="rankLoadStart">
 
 
     <Grid>

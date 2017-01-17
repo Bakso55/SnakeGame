@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 
 namespace Snake
 {
-    class Obstacles : IRandomColor
+    class Obstacles : IColor
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -24,7 +24,7 @@ namespace Snake
             Rectang.Fill = PickBrush();
         }
 
-        public Brush PickBrush()
+         public Brush PickBrush()
         { //LOSOWANIE KOLORU
             Brush result = Brushes.Transparent;
             Random rnd = new Random();

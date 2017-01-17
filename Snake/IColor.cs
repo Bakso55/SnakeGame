@@ -3,7 +3,7 @@
 namespace Snake
 {
 
-    interface IRandomColor
+    interface IColor
     {
         Brush PickBrush();
     }

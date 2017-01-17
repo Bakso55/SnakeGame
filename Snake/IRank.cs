@@ -4,6 +4,7 @@ namespace Snake
 {
     interface IRank
     {
-        void RankSaver(); 
+        void RankSaver();
+        void rankLoad();
     }
 }

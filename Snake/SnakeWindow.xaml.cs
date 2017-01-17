@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Snake
 {
-    public partial class SnakeWindow : Window, IRank, IMusic
+    public partial class SnakeWindow : Window, IRank, IMusic, IChecker, IInitializer
     {
         private MySnake _snake;
         
@@ -42,7 +42,7 @@ namespace Snake
             player.PlayLooping();
         }
 
-        void InitBoard()
+        public void InitBoard()
         { //INICJALIZACJA PLANSZY
             for (int i = 0; i < grid.Width / 10; i++)
             {
@@ -59,14 +59,14 @@ namespace Snake
             _snake = new MySnake();
         }
 
-        void InitSnake()
+        public void InitSnake()
         { //INICJALIZACJA WEZA
             grid.Children.Add(_snake.Head.Rectang);
             foreach (SnakePart snakePart in _snake.Parts) grid.Children.Add(snakePart.Rectang);
             _snake.RedrawSnake();
         }
 
-        void InitTimer()
+        public void InitTimer()
         { //INICJALIZACJA I DEFINICJA USTAWIEN TIMERA (RUCH WEZA)
             _timer = new DispatcherTimer();
             _timer.Tick += new EventHandler(_timer_Tick);
@@ -78,13 +78,13 @@ namespace Snake
             if (score==26) _timer.Interval = new TimeSpan(0, 0, 0, 0, 35);
         }
 
-        void _timer_Tick(object sender, EventArgs e)
+        private void _timer_Tick(object sender, EventArgs e)
         {//PORUSZANIE SIE WEZA ZALEZNE OD ODLICZEN TIMERA
             MoveSnake();
             ScoreDisplay.Text = Convert.ToString(score);
         }
 
-        void InitFood()
+        public void InitFood()
         { //DEFINICJA 'JEDZENIA'
             _food = new SnakePart(10, 10);
             _food.Rectang.Width = _food.Rectang.Height = 50;
@@ -181,7 +181,7 @@ namespace Snake
             Grid.SetRow(_food3.Rectang, _food3.Y);
         }
 
-        private bool IsFieldFree(int x, int y)
+        public bool IsFieldFree(int x, int y)
         {//SPRAWDZENIE CZY POLE O DANYCH WSPOLZEDNYCH JEST PUSTE
             if (_snake.Head.X == x && _snake.Head.Y == y)
                 return false;
@@ -199,7 +199,7 @@ namespace Snake
             return true;
         }
 
-        private bool CheckFood()
+        public bool CheckFood()
         {
             if ((_snake.Head.X == _food.X && _snake.Head.Y == _food.Y) 
                 || (_snake.Head.X == _food2.X && _snake.Head.Y == _food2.Y) 
@@ -290,7 +290,7 @@ namespace Snake
             return false;   
         }
 
-        void InitWall()
+        public void InitWall()
         { //PRZESZKODY
             _walls = new List<Obstacles>();
             Obstacles wall1 = new Obstacles(5, 12, 5, 40);
@@ -343,7 +343,7 @@ namespace Snake
 
         }
 
-        bool CheckCollision()
+       public bool CheckCollision()
         {
             if (_snake.Head.X < 0 || _snake.Head.X > grid.Width / 10)
                 return true; //SPRAWDZENIE KOLIZYJNOSCI Z GRANICAMI PLANSZY
@@ -390,7 +390,7 @@ namespace Snake
             textBox.Text = "";
         }
 
-        public void rankLoad(object sender, RoutedEventArgs e)
+        public void rankLoad()
         {//WCZYTANIE RANKINGU Z PLIKU; CZYSZCZENIE RANKINGU POWYZEJ 10 WPISOW
             var lineCount = File.ReadAllLines("rank.txt").Length;
             if (lineCount > 10)
@@ -405,6 +405,10 @@ namespace Snake
             {
                 textBlock3.Text = reader.ReadToEnd();
             }
+        }
+        private void rankLoadStart(object sender, RoutedEventArgs e)
+        {
+            rankLoad();
         }
         public void RankSaver()
         {//ZAPIS DO PLIKU WYNIKU (PLIK GENEROWANY W KATALOGU W KTORYM URUCHOMIONO PROGRAM)
@@ -424,7 +428,7 @@ namespace Snake
             if (result == Brushes.White || result == Brushes.Black) return PickBrush();
             else return result;
         }
-        void EndGame()
+        private void EndGame()
         {
             _timer.Stop();
             button1_Copy.Visibility = Visibility.Visible;

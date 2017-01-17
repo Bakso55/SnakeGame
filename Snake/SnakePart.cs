@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 
 namespace Snake
 {
-    class SnakePart : IRandomColor
+    class SnakePart : IColor
 
     { //KLASA 'ELEMENT WEZA'
         public int X { get; set; }
